@@ -1,19 +1,30 @@
-import type { moods } from "../types"
+import type { checkIn, moods } from "../types"
 import { useCheckInContext } from "../contexts/CheckInContext";
+import { useState } from "react";
 function CheckinForm() {
+    const [id, setId] = useState(1);
 
     const {addCheckin} = useCheckInContext()
 
     const moods: moods[] = ["great", "good", "okay", "tired", "stressed"];
 
-    function handleSubmit() {
+
+    function handleSubmit(e) {
+        const checkIn: checkIn = {
+            id: id,
+            name: e.target.name,
+
+
+        }
+
+
         addCheckin()
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder="What is your name?" required />
-            <select required>
+        <form onSubmit={(e) => handleSubmit(e)}>
+            <input name="name" type="text" placeholder="What is your name?" required />
+            <select name="mood" required>
                 {moods.map((mood) => (
                     <option key={mood} value={mood}>{mood}</option>
                 ))}
